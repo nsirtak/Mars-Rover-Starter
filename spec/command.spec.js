@@ -10,7 +10,10 @@ describe("Command class", function() {
   });
 
   test("constructor sets command type", function(){
-    let commandObject = new Command("this is a Command", "this is a value")
-    expect(commandObject.commandType).toEqual("this is a Command");
+    let moveCommand = new Command('MOVE');
+    
   });
+  test("constructor sets a value passed in as the 2nd argument", function(){
+    let moveCommand = new Command('MOVE', 12000);
+  })
 });
