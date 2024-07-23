@@ -7,6 +7,7 @@ class Rover {
       this.mode = "NORMAL";
       this.generatorWatts = 110;
    }
+   
    receiveMessage(message){
    let results = [];
    for (let command of message.commands){
