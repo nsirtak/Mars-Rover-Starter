@@ -14,7 +14,7 @@ describe("Rover", function() {
     expect(rover.mode).toBe("NORMAL");
     expect(rover.generatorWatts).toBe(110);
   });
-//test 8 - Checks that receiveMessage contains name of message
+//test 8 
   test("response returned by receiveMessage contains the name of the message", function() {
     let commands = [new Command("MODE_CHANGE", "LOW_POWER")];
     let message = new Message("Test message", commands);
@@ -22,7 +22,7 @@ describe("Rover", function() {
     let response = rover.receiveMessage(message);
     expect(response.message).toBe("Test message");
   });
-//test 9 Checks that receiveMessage includes two results if message contains two commands
+//test 9 
   test("response returned by receiveMessage includes two results if two commands are sent in the message", function() {
     let commands = [new Command("MODE_CHANGE", "LOW_POWER"), new Command("STATUS_CHECK")];
     let message = new Message("Test message", commands);
@@ -30,7 +30,7 @@ describe("Rover", function() {
     let response = rover.receiveMessage(message);
     expect(response.results.length).toBe(2);
   });
-//test 10 - Checks that rover responds correctly to "STATUS_CHECK"
+//test 10 
   test("responds correctly to the status check command", function() {
     let commands = [new Command("STATUS_CHECK")];
     let message = new Message("Test message", commands);
@@ -40,7 +40,7 @@ describe("Rover", function() {
     expect(response.results[0].roverStatus.generatorWatts).toBe(110);
     expect(response.results[0].roverStatus.position).toBe(98382);
   });
-//test 11 - Checks that rover responds correctly to "MODE_CHANGE"
+//test 11 
   test("responds correctly to the mode change command", function() {
     let commands = [new Command("MODE_CHANGE", "LOW_POWER")];
     let message = new Message("Test message", commands);
@@ -49,7 +49,7 @@ describe("Rover", function() {
     expect(rover.mode).toBe("LOW_POWER");
     expect(response.results[0].completed).toBe(true);
   });
-//test 12 - Rover should fail to move when roverStatus is "LOW_POWER"
+//test 12 
   test("responds with a false completed value when attempting to move in LOW_POWER mode", function() {
     let commands = [new Command("MOVE", 12000)];
     let message = new Message("Test message", commands);
@@ -59,7 +59,7 @@ describe("Rover", function() {
     expect(response.results[0].completed).toBe(false);
     expect(rover.position).toBe(98382);
   });
-  //test 13 - Responds with new position when told to "MOVE"
+  //test 13 
   test("responds with the position for the move command", function() {
     let commands = [new Command("MOVE", 12000)];
     let message = new Message("Test message", commands);
