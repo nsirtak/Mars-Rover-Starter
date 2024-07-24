@@ -5,7 +5,7 @@ const Message = require('./message.js');
 
 let rover = new Rover("rover", 98382, "NORMAL", 155); 
 
-console.log(`This is rover result: ${rover}`);
+console.log(`This is new Rover result: ${rover}`);
 console.log(typeof rover);
 
 
@@ -14,15 +14,5 @@ let commands = [
     new Command('STATUS_CHECK'),
 ]
 
-let messages = new Message('Test Message with two commands', commands)
-let results = [
-    {
-        completed: true
-    },
-    {
-       completed: true, 
-       roverStatus: { mode: 'LOW_POWER', generatorWatts: 110, position: 98382 }
-    }
-]
+let messages = new Message('Test Message with 2 commands', commands)
 console.log(messages);
-console.log(results);

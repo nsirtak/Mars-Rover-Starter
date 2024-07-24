@@ -1,39 +1,55 @@
-const Message = require("./message.js");
-const Command = require("./command.js");
+const Message = require("./message");
 
 class Rover {
-   constructor(position){
+   constructor(position, mode="NORMAL", generatorWatts=110) {
       this.position = position;
-      this.mode = "NORMAL";
-      this.generatorWatts = 110;
+      this.mode = mode;
+      this.generatorWatts = generatorWatts;
    }
-   
-   receiveMessage(message){
-   let results = [];
-   for (let command of message.commands){
-      if (command.commandType === "STATUS_CHECK") {
-         results.push({
-           completed: true,
-           roverStatus: {
-             mode: this.mode,
-             generatorWatts: this.generatorWatts,
-             position: this.position,
-           },
-         });
-      } else if (command.commandType === "MODE_CHANGE") {
-         this.mode = command.value;
-         results.push({ completed: true });
-       } else if (command.commandType === "MOVE") {
-         if (this.mode === "LOW_POWER") {
-           results.push({ completed: false });
-         } else {
-           this.position = command.value;
-           results.push({ completed: true });
-         }
-       }
-     }
-     return { message: message.name, results: results };
-   }
- }
+ 
+   receiveMessage(message) { // interprete communication from command
+      let response = {
+         message : message.name,
+         results : []
+      }
 
- module.exports = Rover;
+      for (let i=0; i<message.commands.length; i++) { // determines command and pushes appropriate messages to results
+         if (message.commands[i].commandType === "STATUS_CHECK") { 
+            response.results.push(
+               {
+               completed: true,
+               roverStatus: {
+                  mode: this.mode,
+                  generatorWatts: this.generatorWatts,
+                  position: this.position,
+                  }
+               })
+         } else if (message.commands[i].commandType === "MODE_CHANGE") { 
+            response.results.push(
+               {
+               completed: true
+               }
+            )
+            this.mode = message.commands[i].value
+            } else if (message.commands[i].commandType === "MOVE") {  
+               if (this.mode === "NORMAL") {
+                  response.results.push( // pushes "NORMAL" to results 
+                     {
+                     completed: true
+                     }
+                  )
+                this.position = message.commands[i].value; }
+                else if (this.mode === "LOW_POWER") { 
+                  response.results.push( // pushes "LOW_POWER" to results (no movement possible)
+                     {
+                     completed: false
+                     }
+                  )
+                }
+            } 
+         }
+      return response;
+   }
+}
+
+module.exports = Rover;

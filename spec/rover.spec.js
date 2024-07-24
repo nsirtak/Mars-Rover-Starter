@@ -24,7 +24,7 @@ describe("Rover", function() {
   });
 //test 9 
   test("response returned by receiveMessage includes two results if two commands are sent in the message", function() {
-    let commands = [new Command("MODE_CHANGE", "LOW_POWER"), new Command("STATUS_CHECK")];
+    let commands = [new Command("MODE_CHANGE"), new Command("STATUS_CHECK")];
     let message = new Message("Test message", commands);
     let rover = new Rover(98382);
     let response = rover.receiveMessage(message);
